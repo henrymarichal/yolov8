@@ -51,11 +51,15 @@ check_command_result cp  -r $HOME_DATASET_DIR $DATASET_DIR
 
 #training model
 cd ~/repos/yolov8/
-#./run_yolo.sh $RESULTADOS_DIR $DATASET_DIR
-touch $RESULTADOS_DIR/resultado.txt
+./run_yolo.sh $RESULTADOS_DIR $DATASET_DIR
+#touch $RESULTADOS_DIR/resultado.txt
 
 
 # -------------------------------------------------------
 #copy results
 mkdir -p $HOME_RESULTADOS_DIR
 cp -r $RESULTADOS_DIR/* $HOME_RESULTADOS_DIR
+
+#delete temporal files
+rm -rf $RESULTADOS_DIR
+rm -rf $DATASET_DIR
