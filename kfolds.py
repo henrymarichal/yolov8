@@ -122,27 +122,20 @@ def kfolds_cross_validation(dataset_dir, kfolds):
 
     return ds_yamls
 
-def train_and_evaluate_models(results_dir, ds_yamls, ksplit):
+def train_models(results_dir, ds_yamls, ksplit):
     results = {}
     ARGS = {'imgsz':640}
     weights_path = "./yolov8n.pt"
     model = YOLO(weights_path, task='detect')
     #model.MODE(ARGS)
     # Define your additional arguments here
-    batch = 16
+    batch = 8
     project = 'kfold_demo'
     epochs = 100
 
     for k in tqdm(range(ksplit)):
         dataset_yaml = ds_yamls[k]
         model.train(data=dataset_yaml, epochs=epochs, batch=batch, project=project,imgsz=640) # include any train arguments
-        #storage labels for validation set
-        results[k] = model.results()
-        #storage results to csv
-        results[k].pandas().to_csv(f'{results_dir}/kfold_{k}.csv')
-        #storage weights
-        model.save(f'{results_dir}/kfold_{k}.pt')
-
 
     return
 
@@ -150,7 +143,7 @@ def train_and_evaluate_models(results_dir, ds_yamls, ksplit):
 def main(results_dir = '/data/maestria/resultados/yolov8', dataset_dir = '/data/maestria/resultados/dnn-pith_detector', kfolds = 5):
     Path(results_dir).mkdir(parents=True, exist_ok=True)
     ds_yamls = kfolds_cross_validation(dataset_dir, kfolds)
-    train_and_evaluate_models(results_dir, ds_yamls, kfolds)
+    train_models(results_dir, ds_yamls, kfolds)
     return
 
 if __name__ == "__main__":
