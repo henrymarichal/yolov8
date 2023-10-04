@@ -45,6 +45,8 @@ check_command_result() {
 #copy dataset
 check_command_result mkdir -p $DATASET_DIR
 
+check_command_result mkdir -p $RESULTADOS_DIR
+
 check_command_result cp  -r $HOME_DATASET_DIR $DATASET_DIR
 
 #training model
