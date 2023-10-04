@@ -1,0 +1,7 @@
+train: /data/maestria/resultados/dnn-pith_detector/subsets/images/train
+val: /data/maestria/resultados/dnn-pith_detector/subsets/images/valid
+test: /data/maestria/resultados/dnn-pith_detector/subsets/images/test
+ 
+# Classes
+nc: 1  # number of classes
+names: ['pith']  # class names4
