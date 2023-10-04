@@ -21,11 +21,11 @@ conda activate yolov8
 # -------------------------------------------------------
 #disco local SSD local al nodo. /clusteruy/home/henry.marichal se accede via NFS (puede ser realmente lento)
 #el espacio local a utilizar se reserva con --tmp=XXXGb
-LOCAL_NODE_DIR=/scratch/henry.marichal
+LOCAL_NODE_DIR=/scratch/henry.marichal/
 
 #other variables
-RESULTADOS_DIR=$LOCAL_NODE_DIR/yolov8
-DATASET_DIR=$LOCAL_NODE_DIR/dataset_pith/yolo_urudendro
+RESULTADOS_DIR=$LOCAL_NODE_DIR/yolov8/resultados
+DATASET_DIR=$LOCAL_NODE_DIR/yolov8/yolo_urudendro
 HOME_RESULTADOS_DIR=~/resultados/yolov8
 HOME_DATASET_DIR=~/dataset_pith/yolo_urudendro
 # Define a function to check the result of a command
@@ -43,6 +43,7 @@ check_command_result() {
 }
 
 #copy dataset
+
 check_command_result mkdir -p $DATASET_DIR
 
 check_command_result mkdir -p $RESULTADOS_DIR
