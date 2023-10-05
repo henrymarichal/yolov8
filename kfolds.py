@@ -14,7 +14,7 @@ from sklearn.model_selection import KFold
 def get_data(dataset_dir):
     dataset_path = Path(dataset_dir)  # replace with 'path/to/dataset' for your custom data
     labels = sorted((dataset_path / "labels").rglob("*.txt"))
-
+    print(labels)
     return dataset_path, labels
 
 def get_class_idx(labels):
@@ -135,15 +135,23 @@ def train_models(results_dir, ds_yamls, ksplit):
 
     for k in tqdm(range(ksplit)):
         dataset_yaml = ds_yamls[k]
-        model.train(data=dataset_yaml, epochs=epochs, batch=batch, project=project,imgsz=640) # include any train arguments
+        model.train(data=dataset_yaml, name=f"train_{k}", epochs=epochs, batch=batch, project=results_dir,imgsz=640) # include any train arguments
 
     return
+
+def test_models(results_dir, ds_yamls, ksplit):
+    for k in tqdm(range(ksplit)):
+        dataset_yaml = ds_yamls[k]
+        model = YOLO(results_dir / f"train_{k}/weights/best.pt", task='detect')
+        #load dataset yaml
+
 
 
 def main(results_dir = '/data/maestria/resultados/yolov8', dataset_dir = '/data/maestria/resultados/dnn-pith_detector', kfolds = 5):
     Path(results_dir).mkdir(parents=True, exist_ok=True)
     ds_yamls = kfolds_cross_validation(dataset_dir, kfolds)
     train_models(results_dir, ds_yamls, kfolds)
+
     return
 
 if __name__ == "__main__":
