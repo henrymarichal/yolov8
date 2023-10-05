@@ -1,8 +1,8 @@
 #!/bin/bash
 #SBATCH --job-name=yolov8
 #SBATCH --ntasks=16
-#SBATCH --mem=8192
-#SBATCH --time=12:00:00
+#SBATCH --mem=80G
+#SBATCH --time=1:00:00
 #SBATCH --mail-type=ALL
 #SBATCH --tmp=100G
 #SBATCH --mail-user=henry.marichal@fing.edu.uy
@@ -63,7 +63,7 @@ cd ~/repos/yolov8/
 #copy results
 mkdir -p $HOME_RESULTADOS_DIR
 cp -r $RESULTADOS_DIR/* $HOME_RESULTADOS_DIR
-
+cp -r $DATASET_DIR/* $HOME_RESULTADOS_DIR
 #delete temporal files
 rm -rf $RESULTADOS_DIR
 rm -rf $DATASET_DIR
