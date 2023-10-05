@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=yolov8
-#SBATCH --ntasks=1
+#SBATCH --ntasks=8
 #SBATCH --mem=2048
 #SBATCH --time=12:00:00
 #SBATCH --mail-type=ALL
@@ -28,8 +28,8 @@ RESULTADOS_DIR=$LOCAL_NODE_DIR/yolov8/resultados
 DATASET_DIR=$LOCAL_NODE_DIR/yolov8
 HOME_RESULTADOS_DIR=~/resultados/yolov8
 HOME_DATASET_DIR=~/dataset_pith/yolo_urudendro
-stdout_file="$RESULTADOS_DIR/stdout.txt"
-stderr_file="$RESULTADOS_DIR/stderr.txt"
+stdout_file="$HOME_RESULTADOS_DIR/stdout.txt"
+stderr_file="$HOME_RESULTADOS_DIR/stderr.txt"
 # Define a function to check the result of a command
 check_command_result() {
     # Run the command passed as an argument
