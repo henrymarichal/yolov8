@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=yolov8
-#SBATCH --ntasks=8
+#SBATCH --ntasks=16
 #SBATCH --mem=2048
 #SBATCH --time=12:00:00
 #SBATCH --mail-type=ALL
