@@ -48,6 +48,7 @@ check_command_result() {
 
 rm -rf $DATASET_DIR
 rm -rf $RESULTADOS_DIR
+rm -rf $HOME_RESULTADOS_DIR
 
 check_command_result mkdir -p $DATASET_DIR
 
