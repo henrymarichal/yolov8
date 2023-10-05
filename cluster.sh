@@ -24,8 +24,8 @@ conda activate yolov8
 LOCAL_NODE_DIR=/scratch/henry.marichal/
 
 #other variables
-RESULTADOS_DIR=$LOCAL_NODE_DIR/yolov8/resultados
-DATASET_DIR=$LOCAL_NODE_DIR/yolov8
+NODE_RESULTADOS_DIR=$LOCAL_NODE_DIR/yolov8/resultados
+NODE_DATASET_DIR=$LOCAL_NODE_DIR/yolov8
 HOME_RESULTADOS_DIR=~/resultados/yolov8
 HOME_DATASET_DIR=~/dataset_pith/yolo_urudendro
 stdout_file="$HOME_RESULTADOS_DIR/stdout.txt"
@@ -44,30 +44,32 @@ check_command_result() {
     fi
 }
 
-#copy dataset
-
-rm -rf $DATASET_DIR
-rm -rf $RESULTADOS_DIR
+####Prepare directories
+rm -rf $NODE_DATASET_DIR
+rm -rf $NODE_RESULTADOS_DIR
 rm -rf $HOME_RESULTADOS_DIR
 
-check_command_result mkdir -p $DATASET_DIR
+check_command_result mkdir -p $NODE_DATASET_DIR
+check_command_result mkdir -p $NODE_RESULTADOS_DIR
+check_command_result mkdir -p $HOME_RESULTADOS_DIR
 
-check_command_result mkdir -p $RESULTADOS_DIR
 
-check_command_result cp  -r $HOME_DATASET_DIR $DATASET_DIR
+check_command_result cp  -r $HOME_DATASET_DIR $NODE_DATASET_DIR
+
+
 
 #training model
 cd ~/repos/yolov8/
-./run_yolo.sh $RESULTADOS_DIR $DATASET_DIR/yolo_urudendro > "$stdout_file" 2> "$stderr_file"
+./run_yolo.sh $NODE_RESULTADOS_DIR $NODE_DATASET_DIR/yolo_urudendro > "$stdout_file" 2> "$stderr_file"
 
-#touch $RESULTADOS_DIR/resultado.txt
+#touch $NODE_RESULTADOS_DIR/resultado.txt
 
 
 # -------------------------------------------------------
 #copy results
 mkdir -p $HOME_RESULTADOS_DIR
-cp -r $RESULTADOS_DIR/* $HOME_RESULTADOS_DIR
-cp -r $DATASET_DIR/* $HOME_RESULTADOS_DIR
+cp -r $NODE_RESULTADOS_DIR/* $HOME_RESULTADOS_DIR
+cp -r $NODE_DATASET_DIR/* $HOME_RESULTADOS_DIR
 #delete temporal files
-rm -rf $RESULTADOS_DIR
-rm -rf $DATASET_DIR
+rm -rf $NODE_RESULTADOS_DIR
+rm -rf $NODE_DATASET_DIR
