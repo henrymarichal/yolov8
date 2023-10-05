@@ -59,15 +59,23 @@ def build_folds(labels_df, ksplit = 5):
 
     return folds_df
 
-def create_directory_structure(dataset_path, folds_df, ksplit, classes, labels ):
+def load_images_path(dataset_path):
     supported_extensions = ['.jpg', '.jpeg', '.png']
-
+    dataset_path = Path(dataset_path)
     # Initialize an empty list to store image file paths
     images = []
 
     # Loop through supported extensions and gather image files
     for ext in supported_extensions:
-        images.extend(sorted((dataset_path / 'images/segmented').rglob(f"*{ext}")))
+        images.extend(sorted((dataset_path).rglob(f"*{ext}")))
+
+    return images
+
+def create_directory_structure(dataset_path, folds_df, ksplit, classes, labels ):
+
+
+    # Initialize an empty list to store image file paths
+    images = load_images_path(dataset_path / 'images/segmented')
 
     # Create the necessary directories and dataset YAML files (unchanged)
     save_path = Path(dataset_path / "cv" / f'{datetime.date.today().isoformat()}_{ksplit}-Fold_Cross-val')
@@ -123,28 +131,32 @@ def kfolds_cross_validation(dataset_dir, kfolds):
     return ds_yamls
 
 def train_models(results_dir, ds_yamls, ksplit):
-    results = {}
-    ARGS = {'imgsz':640}
     weights_path = "./yolov8n.pt"
-    model = YOLO(weights_path, task='detect')
-    #model.MODE(ARGS)
-    # Define your additional arguments here
     batch = 16
-    project = 'kfold_demo'
     epochs = 100
 
     for k in tqdm(range(ksplit)):
         dataset_yaml = ds_yamls[k]
+        model = YOLO(weights_path, task='detect')
         model.train(data=dataset_yaml, name=f"train_{k}", epochs=epochs, batch=batch, project=results_dir,imgsz=640,
                     workers=8) # include any train arguments
 
     return
 
-def test_models(results_dir, ds_yamls, ksplit):
-    for k in tqdm(range(ksplit)):
-        dataset_yaml = ds_yamls[k]
-        model = YOLO(results_dir / f"train_{k}/weights/best.pt", task='detect')
-        #load dataset yaml
+def evaluate(results_dir, ds_yamls):
+    for k, yml in enumerate(ds_yamls):
+        data = yaml.safe_load(open(yml))
+        dataset_path = Path(data['path'])
+        images_path = load_images_path( f'{dataset_path}/val/images')
+        model = YOLO(str(results_dir / f"train_{k}/weights/best.pt"), task='detect')
+        model(images_path, project=results_dir / f"/predicciones/split_{k + 1}", save=True, save_txt=True, imgsz=640, conf=0.01)
+
+    return
+
+
+
+
+
 
 
 
@@ -152,7 +164,7 @@ def main(results_dir = '/data/maestria/resultados/yolov8', dataset_dir = '/data/
     Path(results_dir).mkdir(parents=True, exist_ok=True)
     ds_yamls = kfolds_cross_validation(dataset_dir, kfolds)
     train_models(results_dir, ds_yamls, kfolds)
-
+    evaluate(results_dir, ds_yamls)
     return
 
 if __name__ == "__main__":
