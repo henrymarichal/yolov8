@@ -164,7 +164,7 @@ def main(results_dir = '/data/maestria/resultados/yolov8', dataset_dir = '/data/
     Path(results_dir).mkdir(parents=True, exist_ok=True)
     ds_yamls = kfolds_cross_validation(dataset_dir, kfolds)
     train_models(results_dir, ds_yamls, kfolds)
-    evaluate(results_dir, ds_yamls)
+    evaluate( results_dir=results_dir, ds_yamls=ds_yamls)
     return
 
 if __name__ == "__main__":
