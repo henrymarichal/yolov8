@@ -28,6 +28,8 @@ RESULTADOS_DIR=$LOCAL_NODE_DIR/yolov8/resultados
 DATASET_DIR=$LOCAL_NODE_DIR/yolov8
 HOME_RESULTADOS_DIR=~/resultados/yolov8
 HOME_DATASET_DIR=~/dataset_pith/yolo_urudendro
+stdout_file="$RESULTADOS_DIR/stdout.txt"
+stderr_file="$RESULTADOS_DIR/stderr.txt"
 # Define a function to check the result of a command
 check_command_result() {
     # Run the command passed as an argument
@@ -52,7 +54,8 @@ check_command_result cp  -r $HOME_DATASET_DIR $DATASET_DIR
 
 #training model
 cd ~/repos/yolov8/
-./run_yolo.sh $RESULTADOS_DIR $DATASET_DIR
+./run_yolo.sh $RESULTADOS_DIR $DATASET_DIR > "$stdout_file" 2> "$stderr_file"
+
 #touch $RESULTADOS_DIR/resultado.txt
 
 
