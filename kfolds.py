@@ -14,7 +14,7 @@ from sklearn.model_selection import KFold
 def get_data(dataset_dir):
     dataset_path = Path(dataset_dir)  # replace with 'path/to/dataset' for your custom data
     labels = sorted((dataset_path / "labels").rglob("*.txt"))
-    print(labels)
+    print(dataset_path / "labels")
     return dataset_path, labels
 
 def get_class_idx(labels):
