@@ -46,6 +46,9 @@ check_command_result() {
 
 #copy dataset
 
+rm -rf $DATASET_DIR
+rm -rf $RESULTADOS_DIR
+
 check_command_result mkdir -p $DATASET_DIR
 
 check_command_result mkdir -p $RESULTADOS_DIR
