@@ -135,7 +135,8 @@ def train_models(results_dir, ds_yamls, ksplit):
 
     for k in tqdm(range(ksplit)):
         dataset_yaml = ds_yamls[k]
-        model.train(data=dataset_yaml, name=f"train_{k}", epochs=epochs, batch=batch, project=results_dir,imgsz=640) # include any train arguments
+        model.train(data=dataset_yaml, name=f"train_{k}", epochs=epochs, batch=batch, project=results_dir,imgsz=640,
+                    workers=8) # include any train arguments
 
     return
 
