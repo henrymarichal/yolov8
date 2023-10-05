@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=yolov8
 #SBATCH --ntasks=16
-#SBATCH --mem=2048
+#SBATCH --mem=8192
 #SBATCH --time=12:00:00
 #SBATCH --mail-type=ALL
 #SBATCH --tmp=100G
