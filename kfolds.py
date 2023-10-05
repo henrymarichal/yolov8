@@ -114,7 +114,7 @@ def create_directory_structure(dataset_path, folds_df, ksplit, classes, labels )
 def kfolds_cross_validation(dataset_dir, kfolds):
     dataset_path, labels = get_data(dataset_dir)
 
-    labels_df, classes = build_pandas_label_dataframe(labels)
+    labels_df, classes =     build_pandas_label_dataframe(labels)
 
     folds_df = build_folds(labels_df, kfolds)
 
@@ -129,7 +129,7 @@ def train_models(results_dir, ds_yamls, ksplit):
     model = YOLO(weights_path, task='detect')
     #model.MODE(ARGS)
     # Define your additional arguments here
-    batch = 8
+    batch = 16
     project = 'kfold_demo'
     epochs = 100
 
