@@ -144,11 +144,12 @@ def train_models(results_dir, ds_yamls, ksplit):
     return
 
 def evaluate(results_dir, ds_yamls):
+    results_dir = Path(results_dir)
     for k, yml in enumerate(ds_yamls):
         data = yaml.safe_load(open(yml))
         dataset_path = Path(data['path'])
         images_path = load_images_path( f'{dataset_path}/val/images')
-        model = YOLO(str(results_dir / f"train_{k}/weights/best.pt"), task='detect')
+        model = YOLO(str( results_dir / f"train_{k}/weights/best.pt"), task='detect')
         model(images_path, project=results_dir / f"/predicciones/split_{k + 1}", save=True, save_txt=True, imgsz=640, conf=0.01)
 
     return
