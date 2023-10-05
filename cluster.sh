@@ -53,20 +53,19 @@ check_command_result mkdir -p $NODE_DATASET_DIR
 check_command_result mkdir -p $NODE_RESULTADOS_DIR
 check_command_result mkdir -p $HOME_RESULTADOS_DIR
 
-
+####Move dataset to node local disk
 check_command_result cp  -r $HOME_DATASET_DIR $NODE_DATASET_DIR
 
 
+# -------------------------------------------------------
+# Run the program
 
-#training model
 cd ~/repos/yolov8/
 ./run_yolo.sh $NODE_RESULTADOS_DIR $NODE_DATASET_DIR/yolo_urudendro > "$stdout_file" 2> "$stderr_file"
 
-#touch $NODE_RESULTADOS_DIR/resultado.txt
-
 
 # -------------------------------------------------------
-#copy results
+#copy results to HOME
 mkdir -p $HOME_RESULTADOS_DIR
 cp -r $NODE_RESULTADOS_DIR/* $HOME_RESULTADOS_DIR
 cp -r $NODE_DATASET_DIR/* $HOME_RESULTADOS_DIR
