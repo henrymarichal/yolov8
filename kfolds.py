@@ -146,7 +146,7 @@ def train_models(results_dir, ds_yamls, ksplit):
 def evaluate(results_dir, ds_yamls):
     results_dir = Path(results_dir)
     for k, yml in enumerate(ds_yamls):
-        fold_dir = results_dir / f"/predicciones/split_{k + 1}"
+        fold_dir =  Path(f"{results_dir}/predicciones/split_{k + 1}")
         fold_dir.mkdir(parents=True, exist_ok=True)
         data = yaml.safe_load(open(yml))
         dataset_path = Path(data['path'])
