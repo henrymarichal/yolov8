@@ -24,10 +24,11 @@ conda activate yolov8
 LOCAL_NODE_DIR=/scratch/henry.marichal/
 
 #other variables
+DATASET=discs_zoom_in
 NODE_RESULTADOS_DIR=$LOCAL_NODE_DIR/yolov8/resultados
 NODE_DATASET_DIR=$LOCAL_NODE_DIR/yolov8
 HOME_RESULTADOS_DIR=~/resultados/yolov8
-HOME_DATASET_DIR=~/dataset_pith/TreeTrace_Douglas_format/discs_zoom_in
+HOME_DATASET_DIR=~/dataset_pith/TreeTrace_Douglas_format/$DATASET
 stdout_file="$HOME_RESULTADOS_DIR/stdout.txt"
 stderr_file="$HOME_RESULTADOS_DIR/stderr.txt"
 # Define a function to check the result of a command
@@ -61,7 +62,7 @@ check_command_result cp  -r $HOME_DATASET_DIR $NODE_DATASET_DIR
 # Run the program
 
 cd ~/repos/yolov8/
-./run_yolo.sh $NODE_RESULTADOS_DIR $NODE_DATASET_DIR/yolo_urudendro > "$stdout_file" 2> "$stderr_file"
+./run_yolo.sh $NODE_RESULTADOS_DIR $NODE_DATASET_DIR/$DATASET > "$stdout_file" 2> "$stderr_file"
 
 
 # -------------------------------------------------------
