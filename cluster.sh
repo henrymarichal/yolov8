@@ -27,7 +27,7 @@ LOCAL_NODE_DIR=/scratch/henry.marichal/
 NODE_RESULTADOS_DIR=$LOCAL_NODE_DIR/yolov8/resultados
 NODE_DATASET_DIR=$LOCAL_NODE_DIR/yolov8
 HOME_RESULTADOS_DIR=~/resultados/yolov8
-HOME_DATASET_DIR=~/dataset_pith/yolo_urudendro
+HOME_DATASET_DIR=~/dataset_pith/TreeTrace_Douglas_format/discs_zoom_in
 stdout_file="$HOME_RESULTADOS_DIR/stdout.txt"
 stderr_file="$HOME_RESULTADOS_DIR/stderr.txt"
 # Define a function to check the result of a command
