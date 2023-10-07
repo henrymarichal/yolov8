@@ -15,7 +15,7 @@
 #SBATCH --qos=gpu
 
 source /etc/profile.d/modules.sh
-source /clusteruy/home/henry.marichal/miniconda3/etc/profile.d/conda.sh
+source $HOME/miniconda3/etc/profile.d/conda.sh
 conda activate yolov8
 
 # -------------------------------------------------------
@@ -24,7 +24,7 @@ conda activate yolov8
 LOCAL_NODE_DIR=/scratch/henry.marichal/
 
 #other variables
-DATASET=discs_zoom_in
+DATASET=forest_zoom_in
 NODE_RESULTADOS_DIR=$LOCAL_NODE_DIR/yolov8/resultados
 NODE_DATASET_DIR=$LOCAL_NODE_DIR/yolov8
 HOME_RESULTADOS_DIR=~/resultados/yolov8

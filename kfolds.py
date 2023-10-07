@@ -60,7 +60,7 @@ def build_folds(labels_df, ksplit = 5):
     return folds_df
 
 def load_images_path(dataset_path):
-    supported_extensions = ['.jpg', '.jpeg', '.png']
+    supported_extensions = ['.jpg', '.jpeg', '.png','.JPG']
     dataset_path = Path(dataset_path)
     # Initialize an empty list to store image file paths
     images = []
@@ -122,7 +122,7 @@ def create_directory_structure(dataset_path, folds_df, ksplit, classes, labels )
 def kfolds_cross_validation(dataset_dir, kfolds):
     dataset_path, labels = get_data(dataset_dir)
 
-    labels_df, classes =     build_pandas_label_dataframe(labels)
+    labels_df, classes = build_pandas_label_dataframe(labels)
 
     folds_df = build_folds(labels_df, kfolds)
 
@@ -146,7 +146,7 @@ def train_models(results_dir, ds_yamls, ksplit):
 def evaluate(results_dir, ds_yamls):
     results_dir = Path(results_dir)
     for k, yml in enumerate(ds_yamls):
-        fold_dir =  Path(f"{results_dir}/predicciones/split_{k + 1}")
+        fold_dir = Path(f"{results_dir}/predicciones/split_{k + 1}")
         fold_dir.mkdir(parents=True, exist_ok=True)
         data = yaml.safe_load(open(yml))
         dataset_path = Path(data['path'])
@@ -155,12 +155,6 @@ def evaluate(results_dir, ds_yamls):
         model(images_path, project = fold_dir, save=True, save_txt=True, imgsz=640, conf=0.01)
 
     return
-
-
-
-
-
-
 
 
 def main(results_dir = '/data/maestria/resultados/yolov8', dataset_dir = '/data/maestria/resultados/dnn-pith_detector', kfolds = 5):
