@@ -69,7 +69,7 @@ cd ~/repos/yolov8/
 #copy results to HOME
 mkdir -p $HOME_RESULTADOS_DIR
 cp -r $NODE_RESULTADOS_DIR/* $HOME_RESULTADOS_DIR
-cp -r $NODE_DATASET_DIR/* $HOME_RESULTADOS_DIR
+#cp -r $NODE_DATASET_DIR/* $HOME_RESULTADOS_DIR
 #delete temporal files
 rm -rf $NODE_RESULTADOS_DIR
 rm -rf $NODE_DATASET_DIR
