@@ -164,6 +164,34 @@ def main(results_dir = '/data/maestria/resultados/yolov8', dataset_dir = '/data/
     evaluate( results_dir=results_dir, ds_yamls=ds_yamls)
     return
 
+def main_evaluate_models_over_datasets(dataset_dir_for_training, results_dir):
+
+    Path(results_dir).mkdir(parents=True, exist_ok=True)
+
+    weights_path = "./yolov8n.pt"
+    batch = 16
+    epochs = 100
+    dataset_yaml = Path(dataset_dir_for_training) / "dataset.yaml"
+    model = YOLO(weights_path, task='detect')
+    model.train(data=dataset_yaml, name= dataset_yaml.parent.name , epochs=epochs, batch=batch, project=results_dir,imgsz=640,
+                workers=8) # include any train arguments
+
+    dataset_tree_trace_root = "/clusteruy/home/henry.marichal/dataset_pith/TreeTrace_Douglas_format"
+    dataset_list = [dataset_tree_trace_root + "/discs_zoom_in", dataset_tree_trace_root + "/forest_zoom_in", dataset_tree_trace_root + "/logs_zoom_in", dataset_tree_trace_root + "/logyard_zoom_in"]
+    dataset_list += ["/clusteruy/home/henry.marichal/dataset_pith/yolo_urudendro"]
+
+    folder_dir = results_dir + "/predic"
+    Path(folder_dir).mkdir(parents=True, exist_ok=True)
+    for dataset_dir in dataset_list:
+        predic_dir = folder_dir + "/" + Path(dataset_dir).name
+        Path(predic_dir).mkdir(parents=True, exist_ok=True)
+        images_path = load_images_path( f'{dataset_dir}/images/segmented')
+        model(images_path, project = predic_dir, save=True, save_txt=True, imgsz=640, conf=0.01)
+
+    return
+
+
+
 if __name__ == "__main__":
     #input arguments for the script. results_dir is the directory where the results will be stored
     #dataset_dir is the directory where the dataset is stored
@@ -177,4 +205,5 @@ if __name__ == "__main__":
     parser.add_argument('--kfolds', type=int, default=5,
                         help='number of folds for the cross validation')
     args = parser.parse_args()
-    main(args.results_dir, args.dataset_dir, args.kfolds)
+    #main(args.results_dir, args.dataset_dir, args.kfolds)
+    main_evaluate_models_over_datasets(args.dataset_dir, args.results_dir)
