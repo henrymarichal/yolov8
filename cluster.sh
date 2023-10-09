@@ -24,7 +24,7 @@ conda activate yolov8
 LOCAL_NODE_DIR=/scratch/henry.marichal/
 
 #other variables
-DATASET=forest_zoom_in
+DATASET=discs_zoom_in
 NODE_RESULTADOS_DIR=$LOCAL_NODE_DIR/yolov8/resultados
 NODE_DATASET_DIR=$LOCAL_NODE_DIR/yolov8
 HOME_RESULTADOS_DIR=~/resultados/yolov8
