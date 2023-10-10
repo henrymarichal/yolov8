@@ -164,6 +164,17 @@ def main(results_dir = '/data/maestria/resultados/yolov8', dataset_dir = '/data/
     evaluate( results_dir=results_dir, ds_yamls=ds_yamls)
     return
 
+def create_dataset_yaml(dataset_yaml, path, classes):
+    # Create dataset YAML files
+    with open(dataset_yaml, 'w') as ds_y:
+        yaml.safe_dump({
+            'path': path,
+            'train': path,
+            'val': path,
+            'names': classes
+        }, ds_y)
+
+
 def main_evaluate_models_over_datasets(dataset_dir_for_training, results_dir):
 
     Path(results_dir).mkdir(parents=True, exist_ok=True)
@@ -172,14 +183,20 @@ def main_evaluate_models_over_datasets(dataset_dir_for_training, results_dir):
     batch = 16
     epochs = 100
     dataset_yaml = Path(dataset_dir_for_training) / "dataset.yaml"
+    create_dataset_yaml(dataset_yaml, dataset_dir_for_training, "pith")
     model = YOLO(weights_path, task='detect')
     model.train(data=dataset_yaml, name= dataset_yaml.parent.name , epochs=epochs, batch=batch, project=results_dir,imgsz=640,
                 workers=8) # include any train arguments
 
     dataset_tree_trace_root = "/clusteruy/home/henry.marichal/dataset_pith/TreeTrace_Douglas_format"
+    #dataset_tree_trace_root = "/data/maestria/datasets/TreeTrace_Douglas_format"
     dataset_list = [dataset_tree_trace_root + "/discs_zoom_in", dataset_tree_trace_root + "/forest_zoom_in", dataset_tree_trace_root + "/logs_zoom_in", dataset_tree_trace_root + "/logyard_zoom_in"]
-    dataset_list += ["/clusteruy/home/henry.marichal/dataset_pith/yolo_urudendro"]
+    for d_directory in dataset_list:
+        dataset_yaml = Path(d_directory) / "dataset.yaml"
+        create_dataset_yaml(dataset_yaml, d_directory, "pith")
 
+    dataset_list += ["/clusteruy/home/henry.marichal/dataset_pith/yolo_urudendro"]
+    #dataset_list += ["/data/maestria/resultados/dnn-pith_detector"]
     folder_dir = results_dir + "/predic"
     Path(folder_dir).mkdir(parents=True, exist_ok=True)
     for dataset_dir in dataset_list:
