@@ -155,7 +155,7 @@ def evaluate(results_dir, ds_yamls):
         fold_dir.mkdir(parents=True, exist_ok=True)
         data = yaml.safe_load(open(yml))
         dataset_path = Path(data['path'])
-        images_path = load_images_path( f'{dataset_path}/val/images')
+        images_path = load_images_path( f'{dataset_path}/test/images')
         model = YOLO(str( results_dir / f"train_{k}/weights/best.pt"), task='detect')
         model(images_path, project = fold_dir, save=True, save_txt=True, imgsz=640, conf=0.01)
 
