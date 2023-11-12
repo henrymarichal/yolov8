@@ -140,7 +140,7 @@ def kfolds_cross_validation(dataset_dir, kfolds):
 
     labels_df, classes = build_pandas_label_dataframe(labels)
 
-    folds_df = build_folds(labels_df, kfolds)
+    #folds_df = build_folds(labels_df, kfolds)
     folds_df = one_fold(labels_df, kfolds)
 
     ds_yamls = create_directory_structure(dataset_path, folds_df, kfolds, classes, labels)
