@@ -50,9 +50,14 @@ def one_fold(labels_df, kfolds=5, train_val_ratio = 0.8):
     idx = 1
     shape = labels_df.shape[0]
     train_idx = int(shape * train_val_ratio)
-    folds_df[f'split_{idx}'].loc[labels_df.iloc[:train_idx].index] = 'train'
-    folds_df[f'split_{idx}'].loc[labels_df.iloc[train_idx:].index] = 'val'
-    folds_df[f'split_{idx}'].loc[labels_df.iloc[train_idx:].index] = 'test'
+    indexes = np.arange(0,shape )
+    #shuffle indexes
+    np.random.shuffle(indexes)
+    train_idxes = indexes[:train_idx]
+    val_idxes = indexes[train_idx:]
+    folds_df[f'split_{idx}'].loc[labels_df.iloc[train_idxes].index] = 'train'
+    folds_df[f'split_{idx}'].loc[labels_df.iloc[val_idxes].index] = 'val'
+    #folds_df[f'split_{idx}'].loc[labels_df.iloc[train_idx:].index] = 'test'
 
     return folds_df
 
@@ -175,7 +180,7 @@ def evaluate(results_dir, ds_yamls):
     return
 
 
-def main(results_dir = '/data/maestria/resultados/yolov8', dataset_dir = '/data/maestria/resultados/dnn-pith_detector', kfolds = 5):
+def main(results_dir = '/data/maestria/resultados/yolov8_test', dataset_dir = '/data/maestria/resultados/dnn-pith_detector', kfolds = 5):
     Path(results_dir).mkdir(parents=True, exist_ok=True)
     ds_yamls = kfolds_cross_validation(dataset_dir, kfolds)
     train_models(results_dir, ds_yamls, kfolds)
