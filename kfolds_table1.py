@@ -43,6 +43,17 @@ def build_pandas_label_dataframe(labels):
 
     labels_df = labels_df.fillna(0.0)  # replace `nan` values with `0.0`
     return labels_df, cls_idx
+def one_fold(labels_df, kfolds=5, train_val_ratio = 0.8):
+    folds = [f'split_1']
+    folds_df = pd.DataFrame(index=labels_df.index, columns=folds)
+
+    idx = 1
+    shape = labels_df.shape[0]
+    train_idx = int(shape * train_val_ratio)
+    folds_df[f'split_{idx}'].loc[labels_df.iloc[:train_idx].index] = 'train'
+    folds_df[f'split_{idx}'].loc[labels_df.iloc[train_idx:].index] = 'val'
+
+    return folds_df
 
 def build_folds(labels_df, ksplit = 5, train_val_ratio = 0.8):
 
@@ -130,6 +141,7 @@ def kfolds_cross_validation(dataset_dir, kfolds):
     labels_df, classes = build_pandas_label_dataframe(labels)
 
     folds_df = build_folds(labels_df, kfolds)
+    folds_df = one_fold(labels_df, kfolds)
 
     ds_yamls = create_directory_structure(dataset_path, folds_df, kfolds, classes, labels)
 
