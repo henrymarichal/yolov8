@@ -57,7 +57,7 @@ def one_fold(labels_df, kfolds=5, train_val_ratio = 0.8):
     val_idxes = indexes[train_idx:]
     folds_df[f'split_{idx}'].loc[labels_df.iloc[train_idxes].index] = 'train'
     folds_df[f'split_{idx}'].loc[labels_df.iloc[val_idxes].index] = 'val'
-    #folds_df[f'split_{idx}'].loc[labels_df.iloc[train_idx:].index] = 'test'
+    #folds_df[f'split_{idx}'].loc[labels_df.iloc[val_idxes].index] = 'test'
 
     return folds_df
 
@@ -184,7 +184,7 @@ def main(results_dir = '/data/maestria/resultados/yolov8_test', dataset_dir = '/
     Path(results_dir).mkdir(parents=True, exist_ok=True)
     ds_yamls = kfolds_cross_validation(dataset_dir, kfolds)
     train_models(results_dir, ds_yamls, kfolds)
-    evaluate( results_dir=results_dir, ds_yamls=ds_yamls)
+    #evaluate( results_dir=results_dir, ds_yamls=ds_yamls)
     return
 
 def create_dataset_yaml(dataset_yaml, path, classes):
